@@ -9,7 +9,7 @@ namespace Abstractions.Entities
 
         public List<OrdersBooks> OrdersDetails { get; set; } = new();
         
-        public int CustomerId { get; set; }
+        public string CustomerId { get; set; }
         public User Customer { get; set; }
     }
 }
