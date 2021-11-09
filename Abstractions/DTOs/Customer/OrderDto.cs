@@ -4,7 +4,7 @@ namespace Abstractions.DTOs.Customer
 {
     public class NewOrderDto
     {
-        private List<NewOrderDto> Books { get; set; }
+        public List<NewOrderBookDto> Books { get; set; }
     }
 
     public class NewOrderBookDto
