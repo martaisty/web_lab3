@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Abstractions.DTOs.Admin;
 using Abstractions.Entities;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace DAL.DataSeeder
@@ -22,7 +19,6 @@ namespace DAL.DataSeeder
 
             CreateBooks(modelBuilder);
             CreateSages(modelBuilder, images);
-            // CreateBookSages(modelBuilder);
             CreateOrders(modelBuilder);
             CreateOrderDetails(modelBuilder);
         }
@@ -197,21 +193,6 @@ namespace DAL.DataSeeder
                     Photo = images[3],
                     City = "Osula",
                 }
-            );
-        }
-
-        private static void CreateBookSages(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity("SageBook").HasData(
-                new {SageId = 1, BookId = 2},
-                new {SageId = 1, BookId = 5},
-                new {SageId = 2, BookId = 1},
-                new {SageId = 2, BookId = 4},
-                new {SageId = 2, BookId = 6},
-                new {SageId = 3, BookId = 1},
-                new {SageId = 3, BookId = 3},
-                new {SageId = 4, BookId = 5},
-                new {SageId = 4, BookId = 6}
             );
         }
 

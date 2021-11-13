@@ -21,7 +21,7 @@ namespace BLL.Services
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly IConfiguration _configuration;
-        
+
         public AuthenticationService(IUnitOfWork unitOfWork, IMapper mapper, IConfiguration configuration)
         {
             _unitOfWork = unitOfWork;
@@ -31,7 +31,8 @@ namespace BLL.Services
 
         public async Task<string> LoginAsync(LoginDto dto)
         {
-            var signInResult = await _unitOfWork.SignInManager.PasswordSignInAsync(dto.UserName, dto.Password, false, false);
+            var signInResult =
+                await _unitOfWork.SignInManager.PasswordSignInAsync(dto.UserName, dto.Password, false, false);
 
             if (signInResult.Succeeded)
             {
@@ -61,11 +62,11 @@ namespace BLL.Services
 
             var claims = new List<Claim>
             {
-                new(JwtRegisteredClaimNames.Sub,user.UserName),
-                new(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString()),
-                new(ClaimTypes.NameIdentifier,user.Id)
+                new(JwtRegisteredClaimNames.Sub, user.UserName),
+                new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new(ClaimTypes.NameIdentifier, user.Id)
             };
-            
+
             var roles = await _unitOfWork.UserManager.GetRolesAsync(user);
             claims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
 

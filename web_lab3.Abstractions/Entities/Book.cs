@@ -2,7 +2,7 @@
 
 namespace Abstractions.Entities
 {
-    public class Book: IEntity<int>
+    public class Book : IEntity<int>
     {
         public int Id { get; set; }
 

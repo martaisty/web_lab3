@@ -49,7 +49,7 @@ namespace web_lab3
                 var types = assembly.GetTypes().Where((t) => configure.IsAssignableFrom(t) && !t.IsAbstract);
                 foreach (var type in types)
                 {
-                    _layerConfigurations.Add((IConfigureLayer)Activator.CreateInstance(type));
+                    _layerConfigurations.Add((IConfigureLayer) Activator.CreateInstance(type));
                 }
             }
         }
@@ -89,12 +89,13 @@ namespace web_lab3
             app.UseSwagger();
             app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "Store API V1"); });
 
-            app.UseCors(MyAllowSpecificOrigins);
+            app.UseCors();
 
             app.UseHttpsRedirection();
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });

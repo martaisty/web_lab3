@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Abstractions.DTOs.Admin;
 using Abstractions.Services.Admin;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,11 +11,12 @@ namespace web_lab3.Controllers.Admin
 {
     [Route("api/admin/[controller]")]
     [ApiController]
-    public class DoctorController : ControllerBase
+    [Authorize(Roles = "ADMIN")]
+    public class BooksController : ControllerBase
     {
         private readonly IBookService _bookService;
 
-        public DoctorController(IBookService bookService)
+        public BooksController(IBookService bookService)
         {
             _bookService = bookService;
         }

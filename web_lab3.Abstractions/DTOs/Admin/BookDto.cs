@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Abstractions.Entities;
 
 namespace Abstractions.DTOs.Admin
 {
@@ -13,7 +12,7 @@ namespace Abstractions.DTOs.Admin
 
         public List<SageDto> Sages { get; set; }
     }
-    
+
     public class CreateBookDto
     {
         public string Name { get; set; }
@@ -22,7 +21,7 @@ namespace Abstractions.DTOs.Admin
 
         public List<int> Sages { get; set; }
     }
-    
+
     public class UpdateBookDto
     {
         public int Id { get; set; }

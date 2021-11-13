@@ -11,10 +11,12 @@ namespace web_lab3.Controllers
     public class AuthenticationController : ControllerBase
     {
         private readonly IAuthenticationService _authenticationService;
+
         public AuthenticationController(IAuthenticationService authenticationService)
         {
             _authenticationService = authenticationService;
         }
+
         [HttpPost("Register")]
         public async Task<ActionResult> Register(RegisterDto dto)
         {
@@ -27,8 +29,8 @@ namespace web_lab3.Controllers
         {
             try
             {
-                await _authenticationService.LoginAsync(dto);
-                return Ok();
+                var token = await _authenticationService.LoginAsync(dto);
+                return Ok(new {token});
             }
             catch (ApplicationException)
             {

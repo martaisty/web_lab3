@@ -10,10 +10,10 @@ namespace BLL.Mapping.Admin
         {
             CreateMap<CreateSageDto, Sage>()
                 .ForMember(s => s.Books, opt => opt.Ignore());
-            
+
             CreateMap<UpdateSageDto, Sage>()
                 .ForMember(s => s.Books, opt => opt.Ignore());
-            
+
             CreateMap<Sage, SageDto>();
         }
     }

@@ -2,5 +2,7 @@
 
 namespace Abstractions.Repositories
 {
-    public interface IBookRepository : IBaseRepository<Book, int> { }
+    public interface IBookRepository : IBaseRepository<Book, int>
+    {
+    }
 }

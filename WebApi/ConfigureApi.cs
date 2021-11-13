@@ -11,12 +11,9 @@ namespace web_lab3
         public void ConfigureServices(IServiceCollection services, IConfiguration configuration)
         {
             services.AddOptions();
-            
+
             services.AddControllers().AddXmlSerializerFormatters();
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Store API", Version = "v1" });
-            });
+            services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo {Title = "Store API", Version = "v1"}); });
         }
 
         public void Configure(IServiceProvider serviceProvider, bool development)

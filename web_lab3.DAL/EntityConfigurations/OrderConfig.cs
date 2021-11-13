@@ -4,14 +4,14 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace DAL.EntityConfigurations
 {
-    internal class OrderConfig: IEntityTypeConfiguration<Order>
+    internal class OrderConfig : IEntityTypeConfiguration<Order>
     {
         public void Configure(EntityTypeBuilder<Order> builder)
         {
             builder.HasKey(o => o.Id);
 
             builder.Property(o => o.Id).ValueGeneratedOnAdd();
-            
+
             builder.HasMany(o => o.Books)
                 .WithMany(b => b.Orders)
                 .UsingEntity<OrdersBooks>(
@@ -23,7 +23,7 @@ namespace DAL.EntityConfigurations
                         .HasForeignKey(ob => ob.OrderId),
                     j =>
                     {
-                        j.HasKey(ob => new { ob.OrderId, ob.BookId });
+                        j.HasKey(ob => new {ob.OrderId, ob.BookId});
                         j.ToTable("OrdersBooks");
                     }
                 );
@@ -33,5 +33,4 @@ namespace DAL.EntityConfigurations
                 .HasForeignKey(o => o.CustomerId);
         }
     }
-
 }
