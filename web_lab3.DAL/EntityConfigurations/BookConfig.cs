@@ -1,4 +1,5 @@
-﻿using Abstractions.Entities;
+﻿using System.Collections.Generic;
+using Abstractions.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

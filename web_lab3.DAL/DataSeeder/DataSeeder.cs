@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Abstractions.DTOs.Admin;
@@ -21,7 +22,7 @@ namespace DAL.DataSeeder
 
             CreateBooks(modelBuilder);
             CreateSages(modelBuilder, images);
-            CreateBookSages(modelBuilder);
+            // CreateBookSages(modelBuilder);
             CreateOrders(modelBuilder);
             CreateOrderDetails(modelBuilder);
         }
@@ -156,7 +157,7 @@ namespace DAL.DataSeeder
 
         private static List<byte[]> GetProfileImages()
         {
-            var files = Directory.GetFiles("DataSeeder/profiles", "*.jpg");
+            var files = Directory.GetFiles("../web_lab3.DAL/DataSeeder/profiles", "*.jpg");
 
             return files.Select(File.ReadAllBytes).ToList();
         }
