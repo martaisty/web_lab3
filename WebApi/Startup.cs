@@ -53,17 +53,18 @@ namespace web_lab3
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddCors(options =>
-            {
-                options.AddPolicy(MyAllowSpecificOrigins,
-                    builder =>
-                    {
-                        // This policy will change on Azure.
-                        builder.WithOrigins(_configuration.GetSection("AllowedOrigins").ToString())
-                            .AllowAnyOrigin()
-                            .AllowAnyHeader();
-                    });
-            });
+            services.AddCors();
+            // services.AddCors(options =>
+            // {
+            //     options.AddPolicy(MyAllowSpecificOrigins,
+            //         builder =>
+            //         {
+            //             // This policy will change on Azure.
+            //             builder.WithOrigins(_configuration.GetSection("AllowedOrigins").ToString())
+            //                 .AllowAnyOrigin()
+            //                 .AllowAnyHeader();
+            //         });
+            // });
 
             foreach (var layerConfiguration in _layerConfigurations)
             {
@@ -93,6 +94,8 @@ namespace web_lab3
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseSession();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
 

@@ -11,6 +11,8 @@ namespace web_lab3
         public void ConfigureServices(IServiceCollection services, IConfiguration configuration)
         {
             services.AddOptions();
+            services.AddDistributedMemoryCache();
+            services.AddSession();
 
             services.AddControllers().AddXmlSerializerFormatters();
             services.AddSwaggerGen(c =>
