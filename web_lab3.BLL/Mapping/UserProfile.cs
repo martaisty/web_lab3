@@ -9,6 +9,8 @@ namespace BLL.Mapping
         public UserProfile()
         {
             CreateMap<RegisterDto, User>();
+
+            CreateMap<User, UserDataDto>();
         }
     }
 }

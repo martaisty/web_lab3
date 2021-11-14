@@ -1,25 +1,21 @@
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 using Abstractions;
 using Autofac;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 namespace web_lab3
 {
     public class Startup
     {
-       private const string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+        private const string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
         private readonly IConfiguration _configuration;
 

@@ -15,6 +15,8 @@ namespace BLL.Mapping.Admin
                 .ForMember(b => b.Sages, opt => opt.Ignore());
 
             CreateMap<Book, BookDto>();
+
+            CreateMap<Book, BasicBookDto>();
         }
     }
 }

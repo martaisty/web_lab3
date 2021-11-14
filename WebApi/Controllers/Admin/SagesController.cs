@@ -12,34 +12,34 @@ namespace web_lab3.Controllers.Admin
     [Route("api/admin/[controller]")]
     [ApiController]
     [Authorize(Roles = "ADMIN")]
-    public class BooksController : ControllerBase
+    public class SagesController : ControllerBase
     {
-        private readonly IBookService _bookService;
+        private readonly ISageService _sageService;
 
-        public BooksController(IBookService bookService)
+        public SagesController(ISageService sageService)
         {
-            _bookService = bookService;
+            _sageService = sageService;
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<BookDto>>> GetAll()
+        public async Task<ActionResult<List<SageDto>>> GetAll()
         {
-            return await _bookService.GetAllAsync();
+            return await _sageService.GetAllAsync();
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<BookDto>> Get(int id)
+        public async Task<ActionResult<SageDto>> Get(int id)
         {
-            return await _bookService.GetAsync(id);
+            return await _sageService.GetAsync(id);
         }
 
         [HttpPost]
-        public async Task<ActionResult<BookDto>> Insert([FromBody] CreateBookDto dto)
+        public async Task<ActionResult<SageDto>> Insert([FromBody] CreateSageDto dto)
         {
             try
             {
-                var book = await _bookService.InsertAsync(dto);
-                return StatusCode(200, book);
+                var sage = await _sageService.InsertAsync(dto);
+                return StatusCode(200, sage);
             }
             catch (Exception)
             {
@@ -48,16 +48,16 @@ namespace web_lab3.Controllers.Admin
         }
 
         [HttpPut]
-        public async Task<IActionResult> Update([FromBody] UpdateBookDto dto)
+        public async Task<IActionResult> Update([FromBody] UpdateSageDto dto)
         {
             try
             {
-                var book = await _bookService.UpdateAsync(dto);
-                return StatusCode(200, book);
+                var sage = await _sageService.UpdateAsync(dto);
+                return StatusCode(200, sage);
             }
             catch (DbUpdateConcurrencyException)
             {
-                return StatusCode(404, $"Book with id {dto.Id} not found");
+                return StatusCode(404, $"Sage with id {dto.Id} not found");
             }
             catch (Exception)
             {
@@ -70,12 +70,12 @@ namespace web_lab3.Controllers.Admin
         {
             try
             {
-                await _bookService.DeleteAsync(id);
+                await _sageService.DeleteAsync(id);
                 return StatusCode(200, "OK");
             }
             catch (KeyNotFoundException)
             {
-                return StatusCode(404, $"Book with id {id} not found");
+                return StatusCode(404, $"Sage with id {id} not found");
             }
             catch (Exception e)
             {

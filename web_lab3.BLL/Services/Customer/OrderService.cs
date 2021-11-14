@@ -26,9 +26,10 @@ namespace BLL.Services.Customer
             {
                 Order = order,
                 BookId = it.BookId,
-                Number = it.BookId
+                Number = it.Quantity
             });
             order.CustomerId = userId;
+            order.OrdersDetails = details.ToList();
 
             await _uow.OrderRepository.InsertAsync(order);
             await _uow.SaveAsync();

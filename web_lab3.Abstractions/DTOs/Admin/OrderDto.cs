@@ -19,7 +19,7 @@ namespace Abstractions.DTOs.Admin
 
         public string Description { get; set; }
 
-        public List<SageDto> Sages { get; set; }
+        public List<BasicSageDto> Sages { get; set; }
 
         public int Quantity { get; set; }
     }

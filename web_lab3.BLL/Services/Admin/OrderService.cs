@@ -25,7 +25,10 @@ namespace BLL.Services.Admin
             .Select(it => _mapper.Map<Order, OrderDto>(it))
             .ToList();
 
-        public async Task<OrderDto> GetAsync(int id) =>
-            _mapper.Map<Order, OrderDto>(await _uow.OrderRepository.GetByIdAsync(id));
+        public async Task<OrderDto> GetAsync(int id)
+        {
+            var order = await _uow.OrderRepository.GetByIdAsync(id);
+            return _mapper.Map<Order, OrderDto>(order);
+        }
     }
 }

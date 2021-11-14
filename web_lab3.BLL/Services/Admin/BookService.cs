@@ -36,18 +36,17 @@ namespace BLL.Services.Admin
             var sages = await _uow.SageRepository.GetAllAsync(s => dto.Sages.Contains(s.Id));
             book.Sages.AddRange(sages);
             await _uow.BookRepository.InsertAsync(book);
-            // TODO might need to be got from db. Check the Id
             await _uow.SaveAsync();
             return _mapper.Map<Book, BookDto>(book);
         }
 
         public async Task<BookDto> UpdateAsync(UpdateBookDto dto)
         {
-            var book = _mapper.Map<UpdateBookDto, Book>(dto);
+            var existing = await _uow.BookRepository.GetByIdAsync(dto.Id);
+            var book = _mapper.Map(dto, existing);
             await UpdateBookSages(dto.Sages, book);
             await _uow.BookRepository.UpdateAsync(book);
             await _uow.SaveAsync();
-            // TODO might need to be got from db. Check the Id
             return _mapper.Map<Book, BookDto>(book);
         }
 

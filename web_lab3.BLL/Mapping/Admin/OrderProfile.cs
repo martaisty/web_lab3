@@ -8,7 +8,8 @@ namespace BLL.Mapping.Admin
     {
         public OrderProfile()
         {
-            CreateMap<Order, OrderDto>();
+            CreateMap<Order, OrderDto>()
+                .ForMember(o => o.Books, opt => opt.MapFrom(o => o.OrdersDetails));
 
             CreateMap<OrdersBooks, OrderedBookDto>()
                 .ForMember(b => b.Id, opt => opt.MapFrom(o => o.Book.Id))

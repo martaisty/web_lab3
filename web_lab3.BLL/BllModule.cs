@@ -19,7 +19,6 @@ namespace BLL
                 .InstancePerLifetimeScope();
 
             //Configure AutoMapper
-            // TODO
             builder.RegisterInstance(new MapperConfiguration(cfg => { cfg.AddMaps(Assembly.GetExecutingAssembly()); })
                 .CreateMapper());
 

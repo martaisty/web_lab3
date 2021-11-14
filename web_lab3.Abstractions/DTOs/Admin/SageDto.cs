@@ -15,7 +15,21 @@ namespace Abstractions.DTOs.Admin
 
         public string City { get; set; }
 
-        public List<BookDto> Books { get; set; }
+        public List<BasicBookDto> Books { get; set; }
+    }
+
+    public class BasicSageDto
+    {
+        public int Id { get; set; }
+
+        public string Name { get; set; }
+
+        public int Age { get; set; }
+
+// TODO
+        // public byte[] Photo { get; set; }
+
+        public string City { get; set; }
     }
 
     public class CreateSageDto
