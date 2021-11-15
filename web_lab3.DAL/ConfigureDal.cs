@@ -16,7 +16,15 @@ namespace DAL
             services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(connection));
 
             services
-                .AddIdentity<User, IdentityRole>()
+                .AddIdentity<User, IdentityRole>(opt =>
+                {
+                    opt.Password.RequireDigit = false;
+                    opt.Password.RequireLowercase = false;
+                    opt.Password.RequireNonAlphanumeric = false;
+                    opt.Password.RequireUppercase = false;
+                    opt.Password.RequiredLength = 6;
+                    opt.Password.RequiredUniqueChars = 1;
+                })
                 .AddEntityFrameworkStores<DatabaseContext>()
                 .AddDefaultTokenProviders();
         }

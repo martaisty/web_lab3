@@ -29,7 +29,7 @@ namespace BLL.Services
             _configuration = configuration;
         }
 
-        public async Task<string> LoginAsync(LoginDto dto)
+        public async Task<AuthDto> LoginAsync(LoginDto dto)
         {
             var signInResult =
                 await _unitOfWork.SignInManager.PasswordSignInAsync(dto.UserName, dto.Password, false, false);
@@ -37,13 +37,17 @@ namespace BLL.Services
             if (signInResult.Succeeded)
             {
                 var user = _unitOfWork.UserManager.Users.Single((u) => u.UserName == dto.UserName);
-                return await GenerateJwtToken(user);
+                var token = await GenerateJwtToken(user);
+                var roles = await _unitOfWork.UserManager.GetRolesAsync(user);
+                var userDto = _mapper.Map<User, AuthorizedUserDto>(user);
+                userDto.Roles = roles.ToList();
+                return new AuthDto {User = userDto, Token = token};
             }
 
             throw new ApplicationException("Login failed");
         }
 
-        public async Task RegisterAsync(RegisterDto dto)
+        public async Task<AuthDto> RegisterAsync(RegisterDto dto)
         {
             var user = _mapper.Map<RegisterDto, User>(dto);
             var createResult = await _unitOfWork.UserManager.CreateAsync(user, dto.Password);
@@ -53,7 +57,10 @@ namespace BLL.Services
                 throw new ApplicationException("RegisterFailed");
             }
 
+            await _unitOfWork.UserManager.AddToRoleAsync(user, "CUSTOMER");
+
             await _unitOfWork.SaveAsync();
+            return await LoginAsync(new LoginDto {UserName = dto.UserName, Password = dto.Password});
         }
 
         private async Task<string> GenerateJwtToken(User user)

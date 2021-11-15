@@ -11,6 +11,8 @@ namespace BLL.Mapping
             CreateMap<RegisterDto, User>();
 
             CreateMap<User, UserDataDto>();
+
+            CreateMap<User, AuthorizedUserDto>();
         }
     }
 }

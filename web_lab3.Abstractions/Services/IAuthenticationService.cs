@@ -5,8 +5,8 @@ namespace Abstractions.Services
 {
     public interface IAuthenticationService
     {
-        Task<string> LoginAsync(LoginDto dto);
+        Task<AuthDto> LoginAsync(LoginDto dto);
 
-        Task RegisterAsync(RegisterDto dto);
+        Task<AuthDto> RegisterAsync(RegisterDto dto);
     }
 }

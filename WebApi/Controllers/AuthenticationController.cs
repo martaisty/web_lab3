@@ -31,9 +31,9 @@ namespace web_lab3.Controllers
         [HttpPost("Register")]
         public async Task<ActionResult> Register(RegisterDto dto)
         {
-            await _authenticationService.RegisterAsync(dto);
+            var resultDto = await _authenticationService.RegisterAsync(dto);
             Cart = null;
-            return Ok();
+            return Ok(resultDto);
         }
 
         [HttpPost("Login")]
@@ -41,9 +41,9 @@ namespace web_lab3.Controllers
         {
             try
             {
-                var token = await _authenticationService.LoginAsync(dto);
+                var resultDto = await _authenticationService.LoginAsync(dto);
                 Cart = null;
-                return Ok(new {token});
+                return Ok(resultDto);
             }
             catch (ApplicationException)
             {

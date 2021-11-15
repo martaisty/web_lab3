@@ -257,8 +257,8 @@ namespace DAL.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "2c5e174e-3b0e-446f-86af-483d56fd7210", "1755862f-f4e6-47a6-b334-d52472a54404", "ADMIN", null },
-                    { "8e445865-a24d-4543-a6c6-9443d048cdb9", "010bb3e0-907e-43c8-badc-edaf66f522b1", "CUSTOMER", null }
+                    { "2c5e174e-3b0e-446f-86af-483d56fd7210", "1755862f-f4e6-47a6-b334-d52472a54404", "ADMIN", "ADMIN" },
+                    { "8e445865-a24d-4543-a6c6-9443d048cdb9", "010bb3e0-907e-43c8-badc-edaf66f522b1", "CUSTOMER", "CUSTOMER" }
                 });
 
             migrationBuilder.InsertData(

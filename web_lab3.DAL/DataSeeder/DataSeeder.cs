@@ -26,8 +26,10 @@ namespace DAL.DataSeeder
         private static void CreateRoles(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<IdentityRole>().HasData(
-                new IdentityRole {Id = "2c5e174e-3b0e-446f-86af-483d56fd7210", Name = "ADMIN"},
-                new IdentityRole {Id = "8e445865-a24d-4543-a6c6-9443d048cdb9", Name = "CUSTOMER"}
+                new IdentityRole
+                    {Id = "2c5e174e-3b0e-446f-86af-483d56fd7210", Name = "ADMIN", NormalizedName = "ADMIN"},
+                new IdentityRole
+                    {Id = "8e445865-a24d-4543-a6c6-9443d048cdb9", Name = "CUSTOMER", NormalizedName = "CUSTOMER"}
             );
         }
 
