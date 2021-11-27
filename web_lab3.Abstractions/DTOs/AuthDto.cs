@@ -1,22 +1,21 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Abstractions.DTOs
 {
     public class LoginDto
     {
-        public string UserName { get; set; }
-        public string Password { get; set; }
+        [Required] public string UserName { get; set; }
+        [Required] public string Password { get; set; }
     }
 
     public class RegisterDto
     {
-        public string UserName { get; set; }
+        [Required] public string UserName { get; set; }
 
-        public string Password { get; set; }
-
-        public string FirstName { get; set; }
-
-        public string LastName { get; set; }
+        [Required] public string Password { get; set; }
+        [Required] public string FirstName { get; set; }
+        [Required] public string LastName { get; set; }
     }
 
     public class UserDataDto
@@ -43,6 +42,20 @@ namespace Abstractions.DTOs
     {
         public AuthorizedUserDto User { get; set; }
 
-        public string Token { get; set; }
+        public string AccessToken { get; set; }
+
+        public string RefreshToken { get; set; }
+    }
+
+    public class RefreshTokenRequestDto
+    {
+        public string RefreshToken { get; set; }
+    }
+
+    public class RefreshTokenResponseDto
+    {
+        public string AccessToken { get; set; }
+
+        public string RefreshToken { get; set; }
     }
 }

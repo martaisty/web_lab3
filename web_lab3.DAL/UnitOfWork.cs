@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Abstractions;
+using Abstractions.Auth;
 using Abstractions.Entities;
 using Abstractions.Repositories;
 using Microsoft.AspNetCore.Identity;
@@ -19,6 +20,7 @@ namespace DAL
         private UserManager<User> _userManager;
         private RoleManager<IdentityRole> _roleManager;
         private SignInManager<User> _signInManager;
+        private IJwtAuthManager _jwtAuthManager;
 
         public UnitOfWork(DatabaseContext context, IServiceProvider serviceProvider)
         {
@@ -43,6 +45,10 @@ namespace DAL
 
         public SignInManager<User> SignInManager =>
             _signInManager ??= _serviceProvider.GetService<SignInManager<User>>();
+
+        public IJwtAuthManager JwtAuthManager =>
+            _jwtAuthManager ??= _serviceProvider.GetService<IJwtAuthManager>();
+
 
         public async Task<int> SaveAsync()
         {

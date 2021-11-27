@@ -15,8 +15,6 @@ namespace web_lab3
 {
     public class Startup
     {
-        private const string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
-
         private readonly IConfiguration _configuration;
 
         private readonly IWebHostEnvironment _environment;
@@ -53,19 +51,6 @@ namespace web_lab3
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddCors();
-            // services.AddCors(options =>
-            // {
-            //     options.AddPolicy(MyAllowSpecificOrigins,
-            //         builder =>
-            //         {
-            //             // This policy will change on Azure.
-            //             builder.WithOrigins(_configuration.GetSection("AllowedOrigins").ToString())
-            //                 .AllowAnyOrigin()
-            //                 .AllowAnyHeader();
-            //         });
-            // });
-
             foreach (var layerConfiguration in _layerConfigurations)
             {
                 layerConfiguration.ConfigureServices(services, _configuration);
@@ -83,19 +68,19 @@ namespace web_lab3
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IServiceProvider serviceProvider)
         {
-            app.UseSwagger();
-            app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "Store API V1"); });
-
-            app.UseCors();
+            if (_environment.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "Store API V1"); });
+            }
 
             app.UseHttpsRedirection();
-
             app.UseRouting();
+            app.UseCors(ConfigureApi.MyAllowSpecificOrigins);
 
             app.UseAuthentication();
             app.UseAuthorization();
-
-            app.UseSession();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
 

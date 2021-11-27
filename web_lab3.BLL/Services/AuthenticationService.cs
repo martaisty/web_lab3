@@ -1,18 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
 using Abstractions;
+using Abstractions.Auth;
 using Abstractions.DTOs;
 using Abstractions.Entities;
 using Abstractions.Services;
 using AutoMapper;
-using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
-using JwtRegisteredClaimNames = Microsoft.IdentityModel.JsonWebTokens.JwtRegisteredClaimNames;
+using Microsoft.IdentityModel.JsonWebTokens;
 
 namespace BLL.Services
 {
@@ -20,13 +17,11 @@ namespace BLL.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        private readonly IConfiguration _configuration;
 
-        public AuthenticationService(IUnitOfWork unitOfWork, IMapper mapper, IConfiguration configuration)
+        public AuthenticationService(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
-            _configuration = configuration;
         }
 
         public async Task<AuthDto> LoginAsync(LoginDto dto)
@@ -37,11 +32,16 @@ namespace BLL.Services
             if (signInResult.Succeeded)
             {
                 var user = _unitOfWork.UserManager.Users.Single((u) => u.UserName == dto.UserName);
-                var token = await GenerateJwtToken(user);
                 var roles = await _unitOfWork.UserManager.GetRolesAsync(user);
+                var jwtResult = GenerateJwtToken(user, roles);
                 var userDto = _mapper.Map<User, AuthorizedUserDto>(user);
                 userDto.Roles = roles.ToList();
-                return new AuthDto {User = userDto, Token = token};
+                return new AuthDto
+                {
+                    User = userDto,
+                    AccessToken = jwtResult.AccessToken,
+                    RefreshToken = jwtResult.RefreshToken.TokenString
+                };
             }
 
             throw new ApplicationException("Login failed");
@@ -63,10 +63,26 @@ namespace BLL.Services
             return await LoginAsync(new LoginDto {UserName = dto.UserName, Password = dto.Password});
         }
 
-        private async Task<string> GenerateJwtToken(User user)
+        public Task LogoutAsync(string username)
         {
-            var jwt = _configuration.GetSection("Jwt");
+            return Task.Run(() => _unitOfWork.JwtAuthManager.RemoveRefreshTokenByUserName(username));
+        }
 
+        public Task<RefreshTokenResponseDto> RefreshAsync(string refreshToken, string accessToken)
+        {
+            return Task.Run(() =>
+            {
+                var jwtResult = _unitOfWork.JwtAuthManager.Refresh(refreshToken, accessToken, DateTime.Now);
+                return new RefreshTokenResponseDto
+                {
+                    AccessToken = jwtResult.AccessToken,
+                    RefreshToken = jwtResult.RefreshToken.TokenString
+                };
+            });
+        }
+
+        private JwtAuthResult GenerateJwtToken(User user, IList<string> roles)
+        {
             var claims = new List<Claim>
             {
                 new(JwtRegisteredClaimNames.Sub, user.UserName),
@@ -74,21 +90,9 @@ namespace BLL.Services
                 new(ClaimTypes.NameIdentifier, user.Id)
             };
 
-            var roles = await _unitOfWork.UserManager.GetRolesAsync(user);
             claims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwt["Key"]));
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-            var expires = DateTime.Now.AddDays(Convert.ToDouble(jwt["ExpireDays"]));
-
-            var token = new JwtSecurityToken(
-                jwt["Issuer"],
-                jwt["Issuer"],
-                claims,
-                expires: expires,
-                signingCredentials: creds);
-
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            return _unitOfWork.JwtAuthManager.GenerateTokens(user.UserName, claims, DateTime.Now);
         }
     }
 }

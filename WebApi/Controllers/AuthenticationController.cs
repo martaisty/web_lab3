@@ -1,53 +1,89 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Abstractions.DTOs;
-using Abstractions.Services;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using web_lab3.Helpers;
+using Microsoft.IdentityModel.Tokens;
+using IAuthenticationService = Abstractions.Services.IAuthenticationService;
 
 namespace web_lab3.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
     public class AuthenticationController : ControllerBase
     {
         private readonly IAuthenticationService _authenticationService;
-
-        private ISession Session => HttpContext.Session;
-
-        private Dictionary<int, int> Cart
-        {
-            get => Session.Get<Dictionary<int, int>>("cart") ?? new Dictionary<int, int>();
-            set => Session.Set("cart", value);
-        }
 
         public AuthenticationController(IAuthenticationService authenticationService)
         {
             _authenticationService = authenticationService;
         }
 
-        [HttpPost("Register")]
+        [AllowAnonymous]
+        [HttpPost("register")]
         public async Task<ActionResult> Register(RegisterDto dto)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
             var resultDto = await _authenticationService.RegisterAsync(dto);
-            Cart = null;
             return Ok(resultDto);
         }
 
-        [HttpPost("Login")]
+        [AllowAnonymous]
+        [HttpPost("login")]
         public async Task<ActionResult> Login(LoginDto dto)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
             try
             {
                 var resultDto = await _authenticationService.LoginAsync(dto);
-                Cart = null;
                 return Ok(resultDto);
             }
             catch (ApplicationException)
             {
                 return Unauthorized();
+            }
+        }
+
+        [HttpPost("logout")]
+        [Authorize]
+        public async Task<ActionResult> Logout()
+        {
+            var userName = User.Identity?.Name;
+            await _authenticationService.LogoutAsync(userName);
+            return Ok();
+        }
+
+        [HttpPost("refresh-token")]
+        [Authorize]
+        public async Task<ActionResult> RefreshToken([FromBody] RefreshTokenRequestDto request)
+        {
+            try
+            {
+                var userName = User.Identity?.Name;
+
+                if (string.IsNullOrWhiteSpace(request.RefreshToken))
+                {
+                    return Unauthorized();
+                }
+
+                var accessToken = await HttpContext.GetTokenAsync("Bearer", "access_token");
+                var result = await _authenticationService.RefreshAsync(request.RefreshToken, accessToken);
+                return Ok(result);
+            }
+            catch (SecurityTokenException e)
+            {
+                return
+                    Unauthorized(e.Message); // return 401 so that the client side can redirect the user to login page
             }
         }
     }

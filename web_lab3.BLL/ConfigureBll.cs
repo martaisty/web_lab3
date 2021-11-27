@@ -1,7 +1,8 @@
 ﻿using System;
-using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using Abstractions;
+using Abstractions.Auth;
+using BLL.Auth;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,27 +14,33 @@ namespace BLL
     {
         public void ConfigureServices(IServiceCollection services, IConfiguration configuration)
         {
-            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+            var jwtConfig = configuration.GetSection("Jwt").Get<JwtTokenConfig>();
             services
-                .AddAuthentication((options) =>
+                .AddAuthentication(opt =>
                 {
-                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                    opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
                 })
                 .AddJwtBearer(cfg =>
                 {
+                    // TODO In guide it is true
                     cfg.RequireHttpsMetadata = false;
                     cfg.SaveToken = true;
-                    var jwtConfig = configuration.GetSection("Jwt");
-                    cfg.TokenValidationParameters = new TokenValidationParameters()
+                    cfg.TokenValidationParameters = new TokenValidationParameters
                     {
-                        ValidIssuer = jwtConfig["Issuer"],
-                        ValidAudience = jwtConfig["Issuer"],
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtConfig["Key"])),
+                        ValidateIssuer = true,
+                        ValidIssuer = jwtConfig.Issuer,
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtConfig.Secret)),
+                        ValidateAudience = true,
+                        ValidAudience = jwtConfig.Audience,
+                        ValidateLifetime = true,
+                        // TODO in guide is 1 minute
                         ClockSkew = TimeSpan.Zero
                     };
                 });
+
+            services.AddHostedService<JwtRefreshTokenCache>();
         }
 
         public void Configure(IServiceProvider serviceProvider, bool development)
