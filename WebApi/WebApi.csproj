@@ -20,6 +20,81 @@
 
     <ItemGroup>
         <Folder Include="Client"/>
+        <Folder Include="Client\src\app\admin\books\book-list"/>
+        <Folder Include="Client_old\src\app\admin\books\book-list"/>
+        <Folder Include="Client_old\src\app\auth\login"/>
+        <Folder Include="Client_old\src\app\customer"/>
+        <Folder Include="Client_old\src\app\header"/>
+        <Folder Include="Client_old\src\app\home"/>
+        <Folder Include="Client_old\src\assets"/>
+        <Folder Include="Client_old\src\environments"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Content Remove="Client_old\tsconfig.spec.json"/>
+        <Content Remove="Client_old\tsconfig.json"/>
+        <Content Remove="Client_old\tsconfig.app.json"/>
+        <Content Remove="Client_old\package.json"/>
+        <Content Remove="Client_old\angular.json"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Remove="Client_old\src\test.ts"/>
+        <None Remove="Client_old\src\styles.scss"/>
+        <None Remove="Client_old\src\polyfills.ts"/>
+        <None Remove="Client_old\src\main.ts"/>
+        <None Remove="Client_old\src\index.html"/>
+        <None Remove="Client_old\src\favicon.ico"/>
+        <None Remove="Client_old\src\environments\environment.ts"/>
+        <None Remove="Client_old\src\app\home\home.component.ts"/>
+        <None Remove="Client_old\src\app\home\home.component.spec.ts"/>
+        <None Remove="Client_old\src\app\home\home.component.scss"/>
+        <None Remove="Client_old\src\app\header\header.component.ts"/>
+        <None Remove="Client_old\src\app\header\header.component.spec.ts"/>
+        <None Remove="Client_old\src\app\header\header.component.scss"/>
+        <None Remove="Client_old\src\app\customer\customer.module.ts"/>
+        <None Remove="Client_old\src\app\auth\token-storage.service.spec.ts"/>
+        <None Remove="Client_old\src\app\auth\login\login.component.ts"/>
+        <None Remove="Client_old\src\app\auth\login\login.component.spec.ts"/>
+        <None Remove="Client_old\src\app\auth\login\login.component.scss"/>
+        <None Remove="Client_old\src\app\auth\local-storage.service.ts"/>
+        <None Remove="Client_old\src\app\auth\auth.service.ts"/>
+        <None Remove="Client_old\src\app\auth\auth.service.spec.ts"/>
+        <None Remove="Client_old\src\app\auth\auth.model.ts"/>
+        <None Remove="Client_old\src\app\auth\auth.guard.ts"/>
+        <None Remove="Client_old\src\app\auth\auth.guard.spec.ts"/>
+        <None Remove="Client_old\src\app\app.module.ts"/>
+        <None Remove="Client_old\src\app\app.component.ts"/>
+        <None Remove="Client_old\src\app\app.component.spec.ts"/>
+        <None Remove="Client_old\src\app\app.component.scss"/>
+        <None Remove="Client_old\src\app\app.component.html"/>
+        <None Remove="Client_old\src\app\app-routing.module.ts"/>
+        <None Remove="Client_old\src\app\admin\books\book-list\book-list.component.ts"/>
+        <None Remove="Client_old\src\app\admin\books\book-list\book-list.component.spec.ts"/>
+        <None Remove="Client_old\src\app\admin\books\book-list\book-list.component.scss"/>
+        <None Remove="Client_old\src\app\admin\admin.module.ts"/>
+        <None Remove="Client_old\src\app\admin\admin-routing.module.ts"/>
+        <None Remove="Client_old\karma.conf.js"/>
+        <None Remove="Client_old\README.md"/>
+        <None Remove="Client_old\.gitignore"/>
+        <None Remove="Client_old\.editorconfig"/>
+        <None Remove="Client_old\.browserslistrc"/>
+        <None Remove="Client\src\styles.scss"/>
+        <None Remove="Client\src\styles.css"/>
+        <None Remove="Client\src\app\home\home.component.scss"/>
+        <None Remove="Client\src\app\header\header.component.scss"/>
+        <None Remove="Client\src\app\header\header.component.css"/>
+        <None Remove="Client\src\app\auth\login\login.component.spec.ts"/>
+        <None Remove="Client\src\app\auth\login\login.component.scss"/>
+        <None Remove="Client\src\app\auth\login\login.component.css"/>
+        <None Remove="Client\src\app\auth\local-storage.service.ts"/>
+        <None Remove="Client\src\app\auth\auth.service.ts"/>
+        <None Remove="Client\src\app\auth\auth.model.ts"/>
+        <None Remove="Client\src\app\auth\auth.guard.ts"/>
+        <None Remove="Client\src\app\app.component.scss"/>
+        <None Remove="Client\src\app\app.component.css"/>
+        <None Remove="Client\src\app\admin\books\book-list\book-list.component.ts"/>
+        <None Remove="Client\src\app\admin\books\book-list\book-list.component.scss"/>
     </ItemGroup>
 
 </Project>

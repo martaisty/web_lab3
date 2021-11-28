@@ -31,12 +31,8 @@ namespace BLL.Auth
 
         public JwtAuthResult GenerateTokens(string username, IList<Claim> claims, DateTime now)
         {
-            // var shouldAddAudienceClaim = string.IsNullOrWhiteSpace(claims?.FirstOrDefault(x => x.Type == JwtRegisteredClaimNames.Aud)?.Value);
-
             var jwtToken = new JwtSecurityToken(
                 _jwtTokenConfig.Issuer,
-                // TODO 
-                // shouldAddAudienceClaim ? _jwtTokenConfig.Audience : string.Empty,
                 _jwtTokenConfig.Audience,
                 claims,
                 expires: now.AddMinutes(_jwtTokenConfig.AccessTokenExpiration),
@@ -119,7 +115,6 @@ namespace BLL.Auth
                         ValidateAudience = true,
                         ValidAudience = _jwtTokenConfig.Audience,
                         ValidateLifetime = true,
-                        // TODO was 1 min
                         ClockSkew = TimeSpan.Zero
                     },
                     out var validatedToken);

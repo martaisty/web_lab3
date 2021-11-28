@@ -25,8 +25,7 @@ namespace DAL
                     opt.Password.RequiredLength = 6;
                     opt.Password.RequiredUniqueChars = 1;
                 })
-                .AddEntityFrameworkStores<DatabaseContext>()
-                .AddDefaultTokenProviders();
+                .AddEntityFrameworkStores<DatabaseContext>();
         }
 
         public void Configure(IServiceProvider serviceProvider, bool development)

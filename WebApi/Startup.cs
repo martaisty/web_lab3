@@ -7,6 +7,7 @@ using Abstractions;
 using Autofac;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -76,8 +77,15 @@ namespace web_lab3
             }
 
             app.UseHttpsRedirection();
-            app.UseRouting();
+            app.UseStaticFiles();
             app.UseCors(ConfigureApi.MyAllowSpecificOrigins);
+
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.All
+            });
+
+            app.UseRouting();
 
             app.UseAuthentication();
             app.UseAuthorization();

@@ -1,8 +1,12 @@
 ﻿using System;
+using System.Text;
 using Abstractions;
+using Abstractions.Auth;
+using BLL.Auth;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
 namespace web_lab3
@@ -13,9 +17,17 @@ namespace web_lab3
 
         public void ConfigureServices(IServiceCollection services, IConfiguration configuration)
         {
-            // services.AddOptions();
-
-            services.AddControllers().AddXmlSerializerFormatters();
+            services.AddCors(options =>
+            {
+                options.AddPolicy(MyAllowSpecificOrigins,
+                    builder =>
+                    {
+                        builder
+                            .AllowAnyOrigin()
+                            .AllowAnyMethod()
+                            .AllowAnyHeader();
+                    });
+            });
             services.AddSwaggerGen(c =>
             {
                 c.CustomSchemaIds(type => type.ToString());
@@ -41,17 +53,31 @@ namespace web_lab3
                     {securityScheme, new string[] { }}
                 });
             });
-            services.AddCors(options =>
-            {
-                options.AddPolicy(MyAllowSpecificOrigins,
-                    builder =>
+            var jwtConfig = configuration.GetSection("Jwt").Get<JwtTokenConfig>();
+            services
+                .AddAuthentication(opt =>
+                {
+                    opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
+                .AddJwtBearer(cfg =>
+                {
+                    cfg.TokenValidationParameters = new TokenValidationParameters
                     {
-                        builder
-                            .AllowAnyOrigin()
-                            .AllowAnyMethod()
-                            .AllowAnyHeader();
-                    });
-            });
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidateLifetime = true,
+
+                        ValidIssuer = jwtConfig.Issuer,
+                        ValidAudience = jwtConfig.Audience,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtConfig.Secret)),
+                        ClockSkew = TimeSpan.Zero
+                    };
+                });
+
+            services.AddHostedService<JwtRefreshTokenCache>();
+            services.AddControllers();
         }
 
         public void Configure(IServiceProvider serviceProvider, bool development)

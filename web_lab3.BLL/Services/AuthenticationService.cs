@@ -9,7 +9,6 @@ using Abstractions.DTOs;
 using Abstractions.Entities;
 using Abstractions.Services;
 using AutoMapper;
-using Microsoft.IdentityModel.JsonWebTokens;
 
 namespace BLL.Services
 {
@@ -26,25 +25,22 @@ namespace BLL.Services
 
         public async Task<AuthDto> LoginAsync(LoginDto dto)
         {
-            var signInResult =
-                await _unitOfWork.SignInManager.PasswordSignInAsync(dto.UserName, dto.Password, false, false);
-
-            if (signInResult.Succeeded)
+            var user = await _unitOfWork.UserManager.FindByNameAsync(dto.UserName);
+            if (user == null || !await _unitOfWork.UserManager.CheckPasswordAsync(user, dto.Password))
             {
-                var user = _unitOfWork.UserManager.Users.Single((u) => u.UserName == dto.UserName);
-                var roles = await _unitOfWork.UserManager.GetRolesAsync(user);
-                var jwtResult = GenerateJwtToken(user, roles);
-                var userDto = _mapper.Map<User, AuthorizedUserDto>(user);
-                userDto.Roles = roles.ToList();
-                return new AuthDto
-                {
-                    User = userDto,
-                    AccessToken = jwtResult.AccessToken,
-                    RefreshToken = jwtResult.RefreshToken.TokenString
-                };
+                throw new ApplicationException("Login failed");
             }
 
-            throw new ApplicationException("Login failed");
+            var roles = await _unitOfWork.UserManager.GetRolesAsync(user);
+            var jwtResult = GenerateJwtToken(user, roles);
+            var userDto = _mapper.Map<User, AuthorizedUserDto>(user);
+            userDto.Roles = roles.ToList();
+            return new AuthDto
+            {
+                User = userDto,
+                AccessToken = jwtResult.AccessToken,
+                RefreshToken = jwtResult.RefreshToken.TokenString
+            };
         }
 
         public async Task<AuthDto> RegisterAsync(RegisterDto dto)
@@ -85,9 +81,7 @@ namespace BLL.Services
         {
             var claims = new List<Claim>
             {
-                new(JwtRegisteredClaimNames.Sub, user.UserName),
-                new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new(ClaimTypes.NameIdentifier, user.Id)
+                new(ClaimTypes.Name, user.UserName)
             };
 
             claims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
