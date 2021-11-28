@@ -42,6 +42,8 @@ namespace DAL.DataSeeder
                     Id = "b74ddd14-6340-4840-95c2-db12554843e5",
                     UserName = "OnlyAdmin",
                     NormalizedUserName = "ONLY_ADMIN",
+                    FirstName = "Only",
+                    LastName = "Admin",
                     LockoutEnabled = false,
                     PasswordHash = hasher.HashPassword(null, "OnlyAdmin")
                 },
@@ -50,6 +52,7 @@ namespace DAL.DataSeeder
                     Id = "fab4fac1-c546-41de-aebc-a14da6895711",
                     UserName = "Admin",
                     NormalizedUserName = "ADMIN",
+                    FirstName = "Admin",
                     LockoutEnabled = false,
                     PasswordHash = hasher.HashPassword(null, "Admin")
                 },
@@ -58,6 +61,8 @@ namespace DAL.DataSeeder
                     Id = "c7b013f0-5201-4317-abd8-c211f91b7330",
                     UserName = "Makar",
                     NormalizedUserName = "MAKAR",
+                    FirstName = "Makar",
+                    LastName = "Dziuba",
                     LockoutEnabled = false,
                     PasswordHash = hasher.HashPassword(null, "Makar123")
                 },
@@ -66,6 +71,8 @@ namespace DAL.DataSeeder
                     Id = "29a2593f-acfd-47bf-a8a1-6f040ed740d4",
                     UserName = "Sofia",
                     NormalizedUserName = "SOFIA",
+                    FirstName = "Sofia",
+                    LastName = "Bender",
                     LockoutEnabled = false,
                     PasswordHash = hasher.HashPassword(null, "Sofia123")
                 }
