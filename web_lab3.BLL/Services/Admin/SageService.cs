@@ -63,14 +63,14 @@ namespace BLL.Services.Admin
             var books = await _uow.BookRepository.GetAllAsync();
             foreach (var book in books)
             {
-                if (selectedHs.Contains(sage.Id))
+                if (selectedHs.Contains(book.Id))
                 {
-                    if (!existing.Contains(sage.Id))
+                    if (!existing.Contains(book.Id))
                     {
                         sage.Books.Add(book);
                     }
                 }
-                else if (existing.Contains(sage.Id))
+                else if (existing.Contains(book.Id))
                 {
                     sage.Books.Remove(book);
                 }

@@ -71,7 +71,7 @@ namespace web_lab3.Controllers.Admin
             try
             {
                 await _bookService.DeleteAsync(id);
-                return StatusCode(200, "OK");
+                return StatusCode(200);
             }
             catch (KeyNotFoundException)
             {
