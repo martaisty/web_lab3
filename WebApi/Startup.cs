@@ -90,6 +90,8 @@ namespace web_lab3
             app.UseAuthentication();
             app.UseAuthorization();
 
+            app.UseSession();
+
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
 
             foreach (var layerConfiguration in _layerConfigurations)

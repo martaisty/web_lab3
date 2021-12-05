@@ -44,18 +44,18 @@ namespace web_lab3.Controllers.Customer
 
         [HttpPost]
         [Route("/cart/{id}")]
-        public ActionResult AddToCart(int id)
+        public async Task<ActionResult<string>> AddToCart(int id)
         {
             var cart = Cart;
             var quantity = cart.ContainsKey(id) ? cart[id] : 0;
             cart[id] = ++quantity;
             Cart = cart;
-            return Ok();
+            return await Task.Run(() => JsonConvert.SerializeObject(Cart));
         }
 
         [HttpDelete]
         [Route("/cart/{id}")]
-        public ActionResult RemoveCart(int id)
+        public async Task<ActionResult<string>> RemoveCart(int id)
         {
             var cart = Cart;
             if (!cart.ContainsKey(id))
@@ -70,7 +70,7 @@ namespace web_lab3.Controllers.Customer
             }
 
             Cart = cart;
-            return Ok();
+            return await Task.Run(() => JsonConvert.SerializeObject(Cart));
         }
     }
 }

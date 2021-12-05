@@ -76,6 +76,9 @@ namespace web_lab3
                     };
                 });
 
+            services.AddDistributedMemoryCache();
+            services.AddSession();
+
             services.AddHostedService<JwtRefreshTokenCache>();
             services.AddControllers();
         }

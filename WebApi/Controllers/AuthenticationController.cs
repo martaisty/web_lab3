@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Abstractions.DTOs;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using web_lab3.Helpers;
 using IAuthenticationService = Abstractions.Services.IAuthenticationService;
 
 namespace web_lab3.Controllers
@@ -15,6 +18,14 @@ namespace web_lab3.Controllers
     public class AuthenticationController : ControllerBase
     {
         private readonly IAuthenticationService _authenticationService;
+
+        private ISession Session => HttpContext.Session;
+
+        private Dictionary<int, int> Cart
+        {
+            get => Session.Get<Dictionary<int, int>>("cart") ?? new Dictionary<int, int>();
+            set => Session.Set("cart", value);
+        }
 
         public AuthenticationController(IAuthenticationService authenticationService)
         {
@@ -60,6 +71,7 @@ namespace web_lab3.Controllers
         {
             var userName = User.Identity?.Name;
             await _authenticationService.LogoutAsync(userName);
+            Cart = null;
             return Ok();
         }
 
