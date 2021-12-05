@@ -1,0 +1,68 @@
+<div class="container d-flex justify-content-center p-5">
+  <mat-card class="container__box">
+    <mat-card-content>
+      <form [formGroup]="form"
+            (ngSubmit)="onSubmit()"
+            class="d-flex flex-column">
+        <h2>Register</h2>
+        <mat-error *ngIf="registerFailed">
+          The registration has failed
+        </mat-error>
+        <mat-form-field class="full-width-input">
+          <input matInput
+                 placeholder="Username"
+                 formControlName="userName"
+                 required>
+          <mat-error *ngIf="getError('required', 'userName')">
+            Username is required
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="full-width-input">
+          <input matInput
+                 type="password"
+                 placeholder="Password"
+                 formControlName="password"
+                 required>
+          <mat-error *ngIf="getError('required', 'password')">
+            Password is required
+          </mat-error>
+          <mat-error *ngIf="getError('minlength', 'password') as err">
+            Min length is <strong>{{err.requiredLength}}</strong>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="full-width-input">
+          <input matInput
+                 type="text"
+                 placeholder="First name"
+                 formControlName="firstName"
+                 required>
+          <mat-error *ngIf="getError('required', 'firstName')">
+            First name is required
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="full-width-input">
+          <input matInput
+                 type="text"
+                 placeholder="Last name"
+                 formControlName="lastName"
+                 required>
+          <mat-error *ngIf="getError('required', 'lastName')">
+            Last name is required
+          </mat-error>
+        </mat-form-field>
+        <div class="d-flex justify-content-center">
+          <button mat-raised-button
+                  class="mr-1"
+                  color="primary">Register
+          </button>
+          <button mat-raised-button
+                  class="ml-1"
+                  routerLink="/login"
+                  type="button"
+                  color="secondary">Login
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

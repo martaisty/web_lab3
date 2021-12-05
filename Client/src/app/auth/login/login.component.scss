@@ -1,0 +1,20 @@
+.container {
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+
+  &__box {
+    min-width: 640px;
+  }
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+}

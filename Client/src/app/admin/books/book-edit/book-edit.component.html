@@ -1,0 +1,62 @@
+<div class="wrapper container">
+  <h2>
+    Book Edit #{{book.id}}
+  </h2>
+  <form [formGroup]="form"
+        (ngSubmit)="updateBook()"
+        class="book-edit-form">
+    <input formControlName="id"
+           hidden>
+    <mat-form-field appearance="fill">
+      <mat-label>Name</mat-label>
+      <input type="text"
+             matInput
+             formControlName="name"
+             placeholder="Traitor of wood">
+      <mat-error *ngIf="getError('required', 'name')">
+        Name is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Description</mat-label>
+      <textarea matInput
+                rows="5"
+                formControlName="description"
+                placeholder="Hope springs from the knowledge that there is light even in the darkest of shadows."></textarea>
+      <mat-error *ngIf="getError('required', 'description')">
+        Description is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+    <h3><b>Sages</b></h3>
+    <table class="table table-hover">
+      <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Age</th>
+        <th scope="col">City</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let sage of sages; index as i"
+          formArrayName="sages">
+        <th scope="row">
+          <mat-checkbox [formControlName]="i"></mat-checkbox>
+        </th>
+        <td>{{sage.name}}</td>
+        <td>{{sage.age}}</td>
+        <td>{{sage.city}}</td>
+      </tr>
+      </tbody>
+    </table>
+    <div class="wrapper__actions">
+      <button class="btn btn-warning">Update
+      </button>
+      <button class="btn btn-secondary"
+              type="button"
+              (click)="cancelEdit()">Cancel
+      </button>
+    </div>
+  </form>
+</div>

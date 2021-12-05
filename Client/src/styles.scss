@@ -1,0 +1,24 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  box-sizing: border-box;
+  display: flex;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+app-root {
+  flex: 1;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+}
+
+html, body {
+  height: 100%;
+}
+
+/* Importing Bootstrap SCSS file. */
+@import '~bootstrap/scss/bootstrap';

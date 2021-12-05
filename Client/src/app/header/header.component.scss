@@ -1,0 +1,22 @@
+.spacer {
+  flex: 1 1 auto;
+}
+
+@media(max-width: 640px) {
+  .header__appname {
+    display: none;
+  }
+}
+
+.vertical-spacer {
+  border-left: 2px solid white;
+}
+
+.btn-group {
+  display: flex;
+}
+
+.exit-icon {
+  color: white;
+}
+

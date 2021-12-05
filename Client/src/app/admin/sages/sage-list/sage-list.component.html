@@ -1,0 +1,17 @@
+<div class="wrapper">
+  <div class="d-flex justify-content-center mt-2">
+    <button class="btn btn-success"
+            routerLink="add">Add new sage
+    </button>
+  </div>
+  <div class="sages">
+    <app-sage *ngFor="let sage of sages"
+              [sage]="sage"></app-sage>
+  </div>
+  <div *ngIf="sages.length === 0">
+    <h2>
+      No sages available
+    </h2>
+  </div>
+</div>
+

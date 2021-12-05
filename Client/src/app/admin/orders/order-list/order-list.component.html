@@ -1,0 +1,28 @@
+<div class="container">
+  <h3>
+    Orders
+  </h3>
+  <table class="table table-hover">
+    <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">User</th>
+      <th scope="col">Books amount</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let order of orders; index as i"
+        (click)="details(order.id!!)"
+        class="order-row">
+      <th scope="row">{{i + 1}}</th>
+      <td>{{fullName(order.customer!!)}}</td>
+      <td>{{order.books!.length}}</td>
+    </tr>
+    <tr *ngIf="(orders || []).length == 0">
+      <th scope="row"
+          colspan="3">No orders exist
+      </th>
+    </tr>
+    </tbody>
+  </table>
+</div>

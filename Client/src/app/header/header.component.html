@@ -1,0 +1,46 @@
+<mat-toolbar color="primary">
+  <span class="header__appname">Web lab 3</span>
+  <div *ngIf="isAdmin"
+       class="btn-group">
+    <button mat-button
+            class="btn-group"
+            routerLink="admin/books">
+      <span class="btn__label text-light">Books</span>
+    </button>
+    <button mat-button
+            class="btn-group"
+            routerLink="admin/sages">
+      <span class="btn__label text-light">Sages</span>
+    </button>
+    <button mat-button
+            class="btn-group"
+            routerLink="admin/orders">
+      <span class="btn__label text-light">Orders</span>
+    </button>
+    <div class="vertical-spacer"
+         *ngIf="isCustomer"></div>
+  </div>
+  <div *ngIf="isCustomer"
+       class="btn-group">
+    <button mat-button
+            class="btn"
+            routerLink="customer/books">
+      <span class="btn__label text-light">Order books</span>
+    </button>
+  </div>
+  <span class="spacer"></span>
+  <div *ngIf="isCustomer"
+       class="mr-3">
+    <button mat-icon-button
+            routerLink="customer/cart">
+      <mat-icon>shopping_cart</mat-icon>
+    </button>
+  </div>
+  <span>{{fullName}}</span>
+  <button mat-button
+          class="btn"
+          (click)="logout()">
+    <mat-icon class="exit-icon">exit_to_app</mat-icon>
+    <span class="btn__label text-light">Logout</span>
+  </button>
+</mat-toolbar>

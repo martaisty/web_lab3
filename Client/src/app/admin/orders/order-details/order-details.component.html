@@ -1,0 +1,12 @@
+<div class="container">
+  <h2>Order details #{{order.id}}</h2>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">Customer: {{fullName}}</li>
+    <li class="list-group-item">Books</li>
+    <li class="list-group-item d-flex justify-content-between"
+        *ngFor="let book of order.books">
+      {{book.name}}
+      <span class="badge badge-primary badge-pill">{{book.quantity}}</span>
+    </li>
+  </ul>
+</div>

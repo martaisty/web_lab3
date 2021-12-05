@@ -1,0 +1,19 @@
+<div class="wrapper">
+  <div class="d-flex justify-content-center mt-2"
+       *ngIf="cartNonEmpty">
+    <button class="btn btn-success"
+            (click)="order()">Order
+    </button>
+  </div>
+  <div class="books">
+    <app-book *ngFor="let book of books"
+              [book]="book"
+              [quantity]="this.cart[book.id!!] || 0"></app-book>
+  </div>
+  <div *ngIf="books.length === 0">
+    <h2>
+      No books have been added to cart yet
+    </h2>
+  </div>
+</div>
+

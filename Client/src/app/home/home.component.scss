@@ -1,0 +1,9 @@
+.container {
+  display: flex;
+  justify-content: left;
+  padding: 50px 20%;
+
+  &__content {
+    max-width: 60%;
+  }
+}

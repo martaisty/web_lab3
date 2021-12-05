@@ -1,0 +1,13 @@
+.book-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.wrapper {
+  &__actions {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+  }
+}

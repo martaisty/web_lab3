@@ -1,0 +1,17 @@
+<mat-card class="example-card">
+  <mat-card-title>{{book.name}}</mat-card-title>
+  <mat-card-content>
+    <p>{{book.description}}</p>
+  </mat-card-content>
+  <mat-card-actions align="end">
+    <button mat-icon-button [ngClass]="{hidden: quantity <= 0}"
+            (click)="removeFromCart()">
+      <mat-icon>remove_circle_outline</mat-icon>
+    </button>
+    <span [ngClass]="{hidden: quantity <= 0}" class="quantity">{{quantity}}</span>
+    <button mat-icon-button
+            (click)="addToCart()">
+      <mat-icon>add_circle_outline</mat-icon>
+    </button>
+  </mat-card-actions>
+</mat-card>

@@ -1,0 +1,17 @@
+<div class="wrapper">
+  <div class="d-flex justify-content-center mt-2">
+    <button class="btn btn-success"
+            routerLink="add">Add new book
+    </button>
+  </div>
+  <div class="books">
+    <app-book *ngFor="let book of books"
+              [book]="book"></app-book>
+  </div>
+  <div *ngIf="books.length === 0">
+    <h2>
+      No books available
+    </h2>
+  </div>
+</div>
+
