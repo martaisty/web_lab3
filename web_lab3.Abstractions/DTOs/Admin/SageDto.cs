@@ -26,9 +26,6 @@ namespace Abstractions.DTOs.Admin
 
         public int Age { get; set; }
 
-// TODO
-        // public byte[] Photo { get; set; }
-
         public string City { get; set; }
     }
 

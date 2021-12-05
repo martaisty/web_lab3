@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Abstractions.DTOs.Customer;
 using Abstractions.Services.Customer;
@@ -16,6 +18,7 @@ namespace web_lab3.Controllers.Customer
     public class BooksController : ControllerBase
     {
         private readonly IBookService _bookService;
+        private readonly IOrderService _orderService;
         private ISession Session => HttpContext.Session;
 
         private Dictionary<int, int> Cart
@@ -24,9 +27,10 @@ namespace web_lab3.Controllers.Customer
             set => Session.Set("cart", value);
         }
 
-        public BooksController(IBookService bookService)
+        public BooksController(IBookService bookService, IOrderService orderService)
         {
             _bookService = bookService;
+            _orderService = orderService;
         }
 
         [HttpGet]
@@ -71,6 +75,23 @@ namespace web_lab3.Controllers.Customer
 
             Cart = cart;
             return await Task.Run(() => JsonConvert.SerializeObject(Cart));
+        }
+
+        [HttpPost]
+        [Route("/api/customer/orders")]
+        public async Task<ActionResult> Order([FromBody] NewOrderDto dto)
+        {
+            try
+            {
+                var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                await _orderService.CreateOrder(dto, userId);
+                Cart = null;
+                return Ok();
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "Internal server error");
+            }
         }
     }
 }
