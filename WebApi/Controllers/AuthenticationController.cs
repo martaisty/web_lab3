@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Abstractions.DTOs;
-using Microsoft.AspNetCore.Authentication;
+using Abstractions.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-using IAuthenticationService = Abstractions.Services.IAuthenticationService;
 
 namespace web_lab3.Controllers
 {
@@ -59,36 +57,10 @@ namespace web_lab3.Controllers
 
         [HttpPost("logout")]
         [Authorize]
-        public async Task<ActionResult> Logout()
+        public ActionResult Logout()
         {
-            var userName = User.Identity?.Name;
-            await _authenticationService.LogoutAsync(userName);
             Session.Remove("cart");
             return Ok();
-        }
-
-        [HttpPost("refresh-token")]
-        [Authorize]
-        public async Task<ActionResult> RefreshToken([FromBody] RefreshTokenRequestDto request)
-        {
-            try
-            {
-                var userName = User.Identity?.Name;
-
-                if (string.IsNullOrWhiteSpace(request.RefreshToken))
-                {
-                    return Unauthorized();
-                }
-
-                var accessToken = await HttpContext.GetTokenAsync("Bearer", "access_token");
-                var result = await _authenticationService.RefreshAsync(request.RefreshToken, accessToken);
-                return Ok(result);
-            }
-            catch (SecurityTokenException e)
-            {
-                return
-                    Unauthorized(e.Message); // return 401 so that the client side can redirect the user to login page
-            }
         }
     }
 }

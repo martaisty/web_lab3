@@ -2,7 +2,6 @@
 using System.Text;
 using Abstractions;
 using Abstractions.Auth;
-using BLL.Auth;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -80,7 +79,6 @@ namespace web_lab3
                     };
                 });
 
-            services.AddHostedService<JwtRefreshTokenCache>();
             services.AddControllers();
         }
 

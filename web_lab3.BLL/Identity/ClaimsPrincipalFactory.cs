@@ -6,6 +6,7 @@ using Microsoft.Extensions.Options;
 
 namespace BLL.Identity
 {
+    // TODO remove
     internal class ClaimsPrincipalFactory : UserClaimsPrincipalFactory<User, IdentityRole>
     {
         public ClaimsPrincipalFactory(UserManager<User> userManager,

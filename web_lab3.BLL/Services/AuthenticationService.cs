@@ -39,7 +39,6 @@ namespace BLL.Services
             {
                 User = userDto,
                 AccessToken = jwtResult.AccessToken,
-                RefreshToken = jwtResult.RefreshToken.TokenString
             };
         }
 
@@ -57,24 +56,6 @@ namespace BLL.Services
 
             await _unitOfWork.SaveAsync();
             return await LoginAsync(new LoginDto {UserName = dto.UserName, Password = dto.Password});
-        }
-
-        public Task LogoutAsync(string username)
-        {
-            return Task.Run(() => _unitOfWork.JwtAuthManager.RemoveRefreshTokenByUserName(username));
-        }
-
-        public Task<RefreshTokenResponseDto> RefreshAsync(string refreshToken, string accessToken)
-        {
-            return Task.Run(() =>
-            {
-                var jwtResult = _unitOfWork.JwtAuthManager.Refresh(refreshToken, accessToken, DateTime.Now);
-                return new RefreshTokenResponseDto
-                {
-                    AccessToken = jwtResult.AccessToken,
-                    RefreshToken = jwtResult.RefreshToken.TokenString
-                };
-            });
         }
 
         private JwtAuthResult GenerateJwtToken(User user, IList<string> roles)
