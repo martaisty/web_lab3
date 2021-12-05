@@ -81,7 +81,8 @@ namespace BLL.Services
         {
             var claims = new List<Claim>
             {
-                new(ClaimTypes.Name, user.UserName)
+                new(ClaimTypes.Name, user.UserName),
+                new(ClaimTypes.NameIdentifier, user.Id)
             };
 
             claims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
