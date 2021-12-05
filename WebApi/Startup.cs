@@ -79,6 +79,7 @@ namespace web_lab3
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCors(ConfigureApi.MyAllowSpecificOrigins);
+            app.UseSession();
 
             app.UseForwardedHeaders(new ForwardedHeadersOptions
             {
@@ -89,8 +90,6 @@ namespace web_lab3
 
             app.UseAuthentication();
             app.UseAuthorization();
-
-            app.UseSession();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
 

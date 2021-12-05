@@ -36,14 +36,14 @@ namespace web_lab3.Controllers.Customer
         }
 
         [HttpGet]
-        [Route("/cart")]
+        [Route("/api/customer/cart")]
         public async Task<ActionResult<string>> GetCart()
         {
             return await Task.Run(() => JsonConvert.SerializeObject(Cart));
         }
 
         [HttpPost]
-        [Route("/cart/{id}")]
+        [Route("/api/customer/cart/{id}")]
         public async Task<ActionResult<string>> AddToCart(int id)
         {
             var cart = Cart;
@@ -54,7 +54,7 @@ namespace web_lab3.Controllers.Customer
         }
 
         [HttpDelete]
-        [Route("/cart/{id}")]
+        [Route("/api/customer/cart/{id}")]
         public async Task<ActionResult<string>> RemoveCart(int id)
         {
             var cart = Cart;

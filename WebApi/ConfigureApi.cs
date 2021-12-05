@@ -23,11 +23,15 @@ namespace web_lab3
                     builder =>
                     {
                         builder
-                            .AllowAnyOrigin()
+                            .WithOrigins("http://localhost:5000", "http://localhost:4200")
                             .AllowAnyMethod()
-                            .AllowAnyHeader();
+                            .AllowAnyHeader()
+                            .AllowCredentials();
                     });
             });
+            services.AddDistributedMemoryCache();
+            services.AddSession();
+
             services.AddSwaggerGen(c =>
             {
                 c.CustomSchemaIds(type => type.ToString());
@@ -75,9 +79,6 @@ namespace web_lab3
                         ClockSkew = TimeSpan.Zero
                     };
                 });
-
-            services.AddDistributedMemoryCache();
-            services.AddSession();
 
             services.AddHostedService<JwtRefreshTokenCache>();
             services.AddControllers();
