@@ -10,9 +10,6 @@ namespace Abstractions.DTOs.Admin
 
         public int Age { get; set; }
 
-// TODO
-        // public byte[] Photo { get; set; }
-
         public string City { get; set; }
 
         public List<BasicBookDto> Books { get; set; }
@@ -35,9 +32,6 @@ namespace Abstractions.DTOs.Admin
 
         public int Age { get; set; }
 
-// TODO
-        // public byte[] Photo { get; set; }
-
         public string City { get; set; }
 
         public List<int> Books { get; set; }
@@ -50,9 +44,6 @@ namespace Abstractions.DTOs.Admin
         public string Name { get; set; }
 
         public int Age { get; set; }
-
-// TODO
-        // public byte[] Photo { get; set; }
 
         public string City { get; set; }
 

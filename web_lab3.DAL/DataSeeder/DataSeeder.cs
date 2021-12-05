@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using Abstractions.Entities;
+﻿using Abstractions.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,14 +8,12 @@ namespace DAL.DataSeeder
     {
         public static void Initialize(this ModelBuilder modelBuilder)
         {
-            var images = GetProfileImages();
-
             CreateRoles(modelBuilder);
             CreateUsers(modelBuilder);
             AssignUserRoles(modelBuilder);
 
             CreateBooks(modelBuilder);
-            CreateSages(modelBuilder, images);
+            CreateSages(modelBuilder);
             CreateOrders(modelBuilder);
             CreateOrderDetails(modelBuilder);
         }
@@ -160,14 +155,7 @@ namespace DAL.DataSeeder
             );
         }
 
-        private static List<byte[]> GetProfileImages()
-        {
-            var files = Directory.GetFiles("../web_lab3.DAL/DataSeeder/profiles", "*.jpg");
-
-            return files.Select(File.ReadAllBytes).ToList();
-        }
-
-        private static void CreateSages(ModelBuilder modelBuilder, List<byte[]> images)
+        private static void CreateSages(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Sage>().HasData(
                 new Sage
@@ -175,7 +163,6 @@ namespace DAL.DataSeeder
                     Id = 1,
                     Name = "Louise D. Saunders",
                     Age = 26,
-                    Photo = images[0],
                     City = "Morris"
                 },
                 new Sage
@@ -183,7 +170,6 @@ namespace DAL.DataSeeder
                     Id = 2,
                     Name = "Brandi J. Rubalcava",
                     Age = 45,
-                    Photo = images[1],
                     City = "Concord"
                 },
                 new Sage
@@ -191,7 +177,6 @@ namespace DAL.DataSeeder
                     Id = 3,
                     Name = "Craig V. Bates",
                     Age = 30,
-                    Photo = images[2],
                     City = "San Diego"
                 },
                 new Sage
@@ -199,7 +184,6 @@ namespace DAL.DataSeeder
                     Id = 4,
                     Name = "John J. Friend",
                     Age = 22,
-                    Photo = images[3],
                     City = "Osula",
                 }
             );

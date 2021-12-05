@@ -10,8 +10,6 @@ namespace Abstractions.Entities
 
         public int Age { get; set; }
 
-        public byte[] Photo { get; set; }
-
         public string City { get; set; }
 
         public List<Book> Books { get; set; } = new();
