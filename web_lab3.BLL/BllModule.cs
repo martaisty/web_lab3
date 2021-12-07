@@ -1,11 +1,8 @@
 ﻿using System.Reflection;
 using Abstractions.Auth;
-using Abstractions.Entities;
 using Autofac;
 using AutoMapper;
 using BLL.Auth;
-using BLL.Identity;
-using Microsoft.AspNetCore.Identity;
 using Module = Autofac.Module;
 
 namespace BLL
@@ -28,9 +25,6 @@ namespace BLL
             builder.RegisterType<JwtAuthManager>()
                 .As<IJwtAuthManager>()
                 .SingleInstance();
-
-            builder.RegisterType<ClaimsPrincipalFactory>()
-                .As<IUserClaimsPrincipalFactory<User>>();
         }
     }
 }
